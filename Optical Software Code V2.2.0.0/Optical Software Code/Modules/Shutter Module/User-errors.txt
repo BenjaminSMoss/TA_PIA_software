@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nidocument>
+<nicomment>
+
+<nifamily familyname="Shutter" displayname="Shutter">
+</nifamily>
+</nicomment>
+<nierror code="5100">
+An invalid wait time was received in the Shutter module. Default of zero ms was used instead.
+</nierror>
+</nidocument>

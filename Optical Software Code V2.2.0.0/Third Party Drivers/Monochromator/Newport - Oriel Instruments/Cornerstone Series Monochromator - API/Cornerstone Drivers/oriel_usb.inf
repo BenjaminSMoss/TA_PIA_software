@@ -1,0 +1,135 @@
+;Newport Corporation 2012
+;Version=1.0
+;Date=5/29/2012
+;PreparedBy=Mariusz Sasinski
+;
+
+[Version]
+Signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+provider=%CYUSB_Provider%
+CatalogFile=oriel_cs.cat
+DriverVer=10/17/2011,3.4.7.000
+
+[SourceDisksNames]
+1=%CYUSB_Install%,,,\x86
+[SourceDisksNames.amd64]
+2=%CYUSB_Install%,,,\x64
+
+
+[SourceDisksFiles]
+oriel_usb.sys = 1
+
+[SourceDisksFiles.amd64]
+oriel_usb.sys = 2
+
+[DestinationDirs]
+CYUSB.Files.Ext = 10,System32\Drivers
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[Manufacturer]
+%CYUSB_Provider%=Device,NT,NTx86,NTamd64
+
+;for all platforms
+[Device]
+%VID_1180&PIX_0012.DeviceDesc%=CyUsb, USB\VID_1180&PIX_0012
+
+
+;for windows 2000 non intel platforms
+[Device.NT]
+%VID_1180&PIX_0012.DeviceDesc%=CyUsb, USB\VID_1180&PIX_0012
+
+
+;for x86 platforms
+[Device.NTx86]
+%VID_1180&PIX_0012.DeviceDesc%=CyUsb, USB\VID_1180&PIX_0012
+
+
+;for x64 platforms
+[Device.NTamd64]
+%VID_1180&PIX_0012.DeviceDesc%=CyUsb, USB\VID_1180&PIX_0012
+
+
+[CYUSB]
+CopyFiles=oriel_cs
+AddReg=CyUsb.AddReg
+
+[MONO64]
+CopyFiles=oriel_cs
+AddReg=CyUsb.AddReg
+
+[CYUSB.HW]
+AddReg=CYUSB.AddReg.Guid
+
+[CYUSB.Services]
+Addservice = CYUSB,2,CYUSB.AddService
+
+[CYUSB.NT]
+CopyFiles=CYUSB.Files.Ext
+AddReg=CyUsb.AddReg
+
+[CYUSB.NT.HW]
+AddReg=CYUSB.AddReg.Guid
+
+[CYUSB.NT.Services]
+Addservice = CYUSB,2,CYUSB.AddService
+
+
+[CYUSB.NTx86]
+CopyFiles=CYUSB.Files.Ext
+AddReg=CyUsb.AddReg
+
+[CYUSB.NTx86.HW]
+AddReg=CYUSB.AddReg.Guid
+
+[CYUSB.NTx86.Services]
+Addservice = CYUSB,2,CYUSB.AddService
+
+[CYUSB.NTamd64]
+CopyFiles=CYUSB.Files.Ext
+AddReg=CyUsb.AddReg
+
+[CYUSB.NTamd64.HW]
+AddReg=CYUSB.AddReg.Guid
+
+[CYUSB.NTamd64.Services]
+Addservice = CYUSB,2,CYUSB.AddService
+
+
+[CYUSB.AddReg]
+; Deprecating - do not use in new apps to identify a CYUSB driver
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,CYUSB.sys
+; You may optionally include a check for DriverBase in your application to check for a CYUSB driver
+HKR,,DriverBase,,CYUSB.sys
+HKR,"Parameters","MaximumTransferSize",0x10001,4096
+HKR,"Parameters","DebugLevel",0x10001,2
+HKR,,FriendlyName,,%CYUSB_Description%
+
+[CYUSB.AddService]
+DisplayName    = %CYUSB_Description%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\oriel_usb.sys
+AddReg         = CYUSB.AddReg
+LoadOrderGroup = Base
+
+[CYUSB.Files.Ext]
+oriel_usb.sys
+
+[CYUSB.AddReg.Guid]
+HKR,,DriverGUID,,%CYUSB.GUID%
+
+[Strings]
+CYUSB_Provider    = "Newport/Oriel"
+CYUSB_Company     = "Newport/Oriel"
+CYUSB_Description = "Newport/Oriel Cornerstone Monochromator USB Driver"
+CYUSB_DisplayName = "Newport/Oriel Cornerstone Monochromator Generic"
+CYUSB_Install     = "Newport/Oriel Cornerstone Monochromator Driver Installation Disk"
+VID_1180&PIX_0012.DeviceDesc="Newport/Oriel Cornerstone Monochromator"
+CYUSB.GUID="{AE18AA60-7F6A-11d4-97DD-00010229B959}"
+CYUSB_Unused      = "."
